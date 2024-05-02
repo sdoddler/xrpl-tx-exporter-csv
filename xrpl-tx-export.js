@@ -21,6 +21,51 @@ return null;
 }
 
 }
+
+const tokenPrice = async (client, ledgerindex, TOKEN_CURRENCY,TOKEN_ISSUER) => {
+    var token = {};
+    try{
+          
+          const reqAsk = {
+              "command": "book_offers",
+		         "ledger_index": ledgerindex,
+              "taker_gets": {
+              "currency": TOKEN_CURRENCY,
+              "issuer": TOKEN_ISSUER
+              },
+              "taker_pays": {
+              "currency": "XRP"
+              },
+              "limit": 1
+          }
+
+          const reqBid = {
+              "command": "book_offers",
+		         "ledger_index": ledgerindex,
+              "taker_gets": {
+                  "currency": "XRP"
+              },
+              "taker_pays": {
+              "currency": TOKEN_CURRENCY,
+              "issuer": TOKEN_ISSUER
+              },
+              "limit": 1
+          }
+
+          const responseAsk = await client.send(reqAsk);
+          const responseBid = await client.send(reqBid);
+          var ask = responseAsk.offers;
+          var bid = responseBid.offers;
+          token.Ask = parseFloat(ask[0].quality / 1000000).toFixed(2);
+          token.Bid = parseFloat((1 / (bid[0].quality * 1000000))).toFixed(2);
+      
+          client.disconnect();
+  } catch
+  {
+      token.Ask = 0;
+      token.Bid = 0;
+  }
+}	
 	
 const app = async (account, cb, returnTx) => {
 
@@ -54,12 +99,18 @@ const app = async (account, cb, returnTx) => {
               : 0
 		
 	  var usdValue =  "N/A";
+		  var askPrice = "N/A"
+		  var bidPrice = "N/A"
+		  
+		  var test = await xummUSD(xClient, tx.ledger_index,true);
 		  if (currency =="XRP"){
 
-		  var test = await xummUSD(xClient, tx.ledger_index,true);
-		  usdValue = test;
+		  usdValue = test * mutation.value;
 		      }else{
+			var currTest = await tokenPrice(xClient,  tx.ledger_index,mutation.currency,mutation.counterparty);
 
+			  askPrice = currTest.Ask;
+			  bidPrice = currTest.Bid;
 		}
 
 
@@ -74,6 +125,8 @@ const app = async (account, cb, returnTx) => {
               fee: fee,
               hash: tx.hash,
 		    usdValue : usdValue,
+		    askPrice : askPrice,
+		    bidPrice : bidPrice,
               _tx: returnTx ? tx : undefined,
               _meta: returnTx ? meta : undefined
             })
