@@ -27,6 +27,8 @@ const app = async (account, cb, returnTx) => {
               ? Number(tx?.Fee) / 1000000 * -1
               : 0
 
+	  const xrpValue = currency == "XRP" ? await xummUSD(tx.ledger_index,true) : "N/A";
+
             cb({
               ledger: tx.ledger_index,
               direction: direction,
@@ -37,6 +39,7 @@ const app = async (account, cb, returnTx) => {
               is_fee: isFee,
               fee: fee,
               hash: tx.hash,
+		    xrpValue : xrpValue,
               _tx: returnTx ? tx : undefined,
               _meta: returnTx ? meta : undefined
             })
@@ -45,6 +48,25 @@ const app = async (account, cb, returnTx) => {
       })
     }
   }
+
+async function xummUSD(ledger, debug=false) {
+try {
+var result = await client.request({
+    "command": "account_tx",
+    "account": "rXUMMaPpZqPutoRszR29jtC8amWq3APkx",
+    "ledger_index_min": ledger-15,
+    "ledger_index_max": ledger+15,
+    "limit":1
+})
+
+if (debug) console.log("XRP USD VALUE: " + result.result.transactions[0].tx.LimitAmount.value)
+return result.result.transactions[0].tx.LimitAmount.value;
+} catch (error) {
+if (debug) console.log(`ERROR RETRIEVING XRP USD VALUE`)
+return null;
+}
+
+}
 
   const client = await new Client('wss://xrplcluster.com', {
     NoUserAgent: true
