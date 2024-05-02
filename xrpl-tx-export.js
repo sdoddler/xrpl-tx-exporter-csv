@@ -2,6 +2,10 @@ require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c=
 const Client = require('rippled-ws-client')
 const {parseBalanceChanges} = require('ripple-lib-transactionparser')
 
+   const xClient = await new Client('wss://xrplcluster.com', {
+    NoUserAgent: true
+  })
+	
 const xummUSD = async (xrpClient, ledger, debug=false) => {
 try {
 var result = await xrpClient.send({
@@ -78,9 +82,7 @@ const app = async (account, cb, returnTx) => {
   const display = async (result) => {
     if (result?.transactions) {
 
-	     const xClient = await new Client('wss://xrplcluster.com', {
-    NoUserAgent: true
-  })
+	  
       result?.transactions.forEach(r => {
         const {tx, meta} = r
         let direction = 'other'
