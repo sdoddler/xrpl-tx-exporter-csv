@@ -78,6 +78,7 @@
             start: function () {
               this.started = true
               this.transactions = []
+              var serverEl =document.getElementById("server");
               var vThis = this
               exportModule.app(this.account, function (tx) {
                 Object.assign(tx, {
@@ -86,7 +87,7 @@
                   SourceTag: tx._tx.SourceTag || ''
                 })
                 vThis.transactions.push(tx)
-              }, true)
+              }, true, serverEl.value)
             }
           }
         })
@@ -104,6 +105,8 @@
       <h6><small>By <a href="https://wietse.com/xrpl">Wietse Wind</a> - <a href="https://github.com/WietseWind/xrpl-tx-exporter-csv">Source (GitHub)</a></small></h6>
       <div id="exporter" class="pt-2 mt-3 border-top">
         <div class="" v-if="!started">
+          <h5>Enter your server address:</h5>
+          <input id="server" type="search" placeholder="wss://xrplcluster.com/" class="input form-control input-lg form-control-lg"> 
           <h5>Enter your account address:</h5>
           <input type="search" placeholder="r..." v-model="account" class="input form-control input-lg form-control-lg">
           <div class="d-inline-block">
