@@ -55,18 +55,18 @@ const tokenPrice = async (client, ledgerindex, TOKEN_CURRENCY,TOKEN_ISSUER) => {
           }
 
           const responseAsk = await client.send(reqAsk);
-	    console.log(responseAsk);
+	   // console.log(responseAsk);
           const responseBid = await client.send(reqBid);
 	    
-	    console.log(responseBid);
+	 //   console.log(responseBid);
           var ask = responseAsk.offers;
           var bid = responseBid.offers;
           token.Ask = parseFloat(ask[0].quality / 1000000).toFixed(2);
           token.Bid = parseFloat((1 / (bid[0].quality * 1000000))).toFixed(2);
       
-          client.disconnect();
-  } catch
+  } catch (e)
   {
+	  console.log(e)
       token.Ask = 0;
       token.Bid = 0;
   }
@@ -114,7 +114,7 @@ const app = async (account, cb, returnTx) => {
 			  if (usdValue < 0.001) usdValue = 0;
 		      }else{
 			var currTest = await tokenPrice(xClient,  tx.ledger_index,mutation.currency,mutation.counterparty);
-
+			console.log(currTest);
 			  askPrice = currTest.Ask;
 			  bidPrice = currTest.Bid;
 		}
