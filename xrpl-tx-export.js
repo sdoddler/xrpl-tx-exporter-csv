@@ -119,7 +119,8 @@ const fields = [
   'amount',
   'is_fee',
   'fee',
-  'hash'
+  'hash',
+	'usdValue'
 ]
 
 module.exports = {
