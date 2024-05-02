@@ -104,8 +104,9 @@ const app = async (account, cb, returnTx) => {
 		  
 		  var test = await xummUSD(xClient, tx.ledger_index,true);
 		  if (currency =="XRP"){
-
+		 
 		  usdValue = test * mutation.value;
+			  if (usdValue < 0.001) usdValue = 0;
 		      }else{
 			var currTest = await tokenPrice(xClient,  tx.ledger_index,mutation.currency,mutation.counterparty);
 
@@ -113,6 +114,8 @@ const app = async (account, cb, returnTx) => {
 			  bidPrice = currTest.Bid;
 		}
 
+		  
+			  if (usdValue < 0.001) usdValue = 0;
 
             cb({
               ledger: tx.ledger_index,
@@ -173,7 +176,9 @@ const fields = [
   'is_fee',
   'fee',
   'hash',
-	'usdValue'
+	'usdValue',
+		    'askPrice',
+		    'bidPrice'
 ]
 
 module.exports = {
