@@ -13,8 +13,8 @@ var result = await xrpClient.send({
 })
 	if (debug) console.log(result);
 
-if (debug) console.log("XRP USD VALUE: " + result.result.transactions[0].tx.LimitAmount.value)
-return result.result.transactions[0].tx.LimitAmount.value;
+if (debug) console.log("XRP USD VALUE: " + result.transactions[0].tx.LimitAmount.value)
+return result.transactions[0].tx.LimitAmount.value;
 } catch (error) {
 if (debug) console.log(`ERROR RETRIEVING XRP USD VALUE`)
 return null;
