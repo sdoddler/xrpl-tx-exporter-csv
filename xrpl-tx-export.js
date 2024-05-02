@@ -2,9 +2,7 @@ require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c=
 const Client = require('rippled-ws-client')
 const {parseBalanceChanges} = require('ripple-lib-transactionparser')
 
-   const xClient = await new Client('wss://xrplcluster.com', {
-    NoUserAgent: true
-  })
+
 	
 const xummUSD = async (xrpClient, ledger, debug=false) => {
 try {
@@ -148,12 +146,12 @@ const app = async (account, cb, returnTx) => {
 
 
 
-  const client = await new Client('wss://xrplcluster.com', {
+  const xClient = await new Client('wss://xrplcluster.com', {
     NoUserAgent: true
   })
 
   const getMore = async marker => {
-    const result = await client.send({
+    const result = await xClient.send({
       command: 'account_tx',
       account,
       limit: 10,
