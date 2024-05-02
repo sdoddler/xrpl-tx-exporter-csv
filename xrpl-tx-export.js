@@ -74,7 +74,7 @@ const tokenPrice = async (client, ledgerindex, TOKEN_CURRENCY,TOKEN_ISSUER) => {
 	return token;
 }	
 	
-const app = async (account, cb, returnTx) => {
+const app = async (account, cb, returnTx, xrplServer) => {
 
 	
   const display = async (result) => {
@@ -144,9 +144,11 @@ const app = async (account, cb, returnTx) => {
     }
   }
 
-
-
-  const xClient = await new Client('wss://xrplcluster.com', {
+	if (xrplServer == ""){
+		xrplServer = 'wss://xrplcluster.com';
+	}
+	
+  const xClient = await new Client(xrplServer, {
     NoUserAgent: true
   })
 
