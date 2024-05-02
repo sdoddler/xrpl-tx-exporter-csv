@@ -35,7 +35,7 @@ const app = async (account, cb, returnTx) => {
         const balanceChanges = parseBalanceChanges(meta)
         if (Object.keys(balanceChanges).indexOf(account) > -1) {
           const mutations = balanceChanges[account]
-          mutations.forEach(mutation => {
+          mutations.forEach(mutation => async () {
             const currency = mutation.counterparty === ''
               ? 'XRP'
               : `${mutation.counterparty}.${mutation.currency}`
@@ -48,9 +48,15 @@ const app = async (account, cb, returnTx) => {
               ? Number(tx?.Fee) / 1000000 * -1
               : 0
 		
-	  const usdValue = currency == "XRP" ? "Check USD at "+tx.ledger_index  : "N/A";
+	  const usdValue =  "N/A";
+		  if (currency =="XRP){
 
 		  var test = await xummUSD(tx.ledger_index,true);
+		  usdValue = test;
+		      }else{
+
+		}
+
 
             cb({
               ledger: tx.ledger_index,
