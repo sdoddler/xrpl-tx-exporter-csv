@@ -2,15 +2,16 @@ require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c=
 const Client = require('rippled-ws-client')
 const {parseBalanceChanges} = require('ripple-lib-transactionparser')
 
-const xummUSD = async (ledger, debug=false) => {
+const xummUSD = async (xrpClient, ledger, debug=false) => {
 try {
-var result = await client.request({
+var result = await xrpClient.send({
     "command": "account_tx",
     "account": "rXUMMaPpZqPutoRszR29jtC8amWq3APkx",
     "ledger_index_min": ledger-15,
     "ledger_index_max": ledger+15,
     "limit":1
 })
+	if (debug) console.log(result);
 
 if (debug) console.log("XRP USD VALUE: " + result.result.transactions[0].tx.LimitAmount.value)
 return result.result.transactions[0].tx.LimitAmount.value;
@@ -26,6 +27,10 @@ const app = async (account, cb, returnTx) => {
 	
   const display = result => {
     if (result?.transactions) {
+
+	     const xClient = await new Client('wss://xrplcluster.com', {
+    NoUserAgent: true
+  })
       result?.transactions.forEach(r => {
         const {tx, meta} = r
         let direction = 'other'
@@ -51,7 +56,7 @@ const app = async (account, cb, returnTx) => {
 	  var usdValue =  "N/A";
 		  if (currency =="XRP"){
 
-		  var test = await xummUSD(tx.ledger_index,true);
+		  var test = await xummUSD(xClient, tx.ledger_index,true);
 		  usdValue = test;
 		      }else{
 
