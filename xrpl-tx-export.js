@@ -53,7 +53,10 @@ const tokenPrice = async (client, ledgerindex, TOKEN_CURRENCY,TOKEN_ISSUER) => {
           }
 
           const responseAsk = await client.send(reqAsk);
+	    console.log(responseAsk);
           const responseBid = await client.send(reqBid);
+	    
+	    console.log(responseBid);
           var ask = responseAsk.offers;
           var bid = responseBid.offers;
           token.Ask = parseFloat(ask[0].quality / 1000000).toFixed(2);
