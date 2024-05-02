@@ -47,8 +47,10 @@ const app = async (account, cb, returnTx) => {
               const fee = direction === 'sent'
               ? Number(tx?.Fee) / 1000000 * -1
               : 0
+		
+	  const usdValue = currency == "XRP" ? "Check USD at "+tx.ledger_index  : "N/A";
 
-	  const usdValue = currency == "XRP" ? await xummUSD(tx.ledger_index,true) : "N/A";
+		  var test = await xummUSD(tx.ledger_index,true);
 
             cb({
               ledger: tx.ledger_index,
