@@ -111,7 +111,7 @@ const app = async (account, cb, returnTx, xrplServer) => {
 		  if (currency =="XRP"){
 		 
 		  usdValue = test * mutation.value;
-			  if (usdValue < 0.001) usdValue = 0;
+			  if (Math.abs(usdValue) < 0.001) usdValue = 0;
 		      }else{
 			var currTest = await tokenPrice(xClient,  tx.ledger_index,mutation.currency,mutation.counterparty);
 			console.log(currTest);
