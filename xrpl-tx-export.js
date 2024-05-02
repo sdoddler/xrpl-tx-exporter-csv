@@ -2,7 +2,7 @@ require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c=
 const Client = require('rippled-ws-client')
 const {parseBalanceChanges} = require('ripple-lib-transactionparser')
 
-
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 	
 const xummUSD = async (xrpClient, ledger, debug=false) => {
 try {
@@ -138,6 +138,8 @@ const app = async (account, cb, returnTx, xrplServer) => {
               _tx: returnTx ? tx : undefined,
               _meta: returnTx ? meta : undefined
             })
+
+		  await delay(20);
           })
         }
       })
