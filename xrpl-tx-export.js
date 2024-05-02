@@ -35,7 +35,7 @@ const app = async (account, cb, returnTx) => {
         const balanceChanges = parseBalanceChanges(meta)
         if (Object.keys(balanceChanges).indexOf(account) > -1) {
           const mutations = balanceChanges[account]
-          mutations.forEach(mutation => async () {
+          mutations.forEach(async(mutation) => {
             const currency = mutation.counterparty === ''
               ? 'XRP'
               : `${mutation.counterparty}.${mutation.currency}`
