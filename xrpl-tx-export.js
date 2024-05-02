@@ -25,7 +25,7 @@ return null;
 const app = async (account, cb, returnTx) => {
 
 	
-  const display = result => {
+  const display = async (result) => {
     if (result?.transactions) {
 
 	     const xClient = await new Client('wss://xrplcluster.com', {
