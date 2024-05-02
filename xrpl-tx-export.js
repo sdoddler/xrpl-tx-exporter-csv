@@ -49,7 +49,7 @@ const app = async (account, cb, returnTx) => {
               : 0
 		
 	  const usdValue =  "N/A";
-		  if (currency =="XRP){
+		  if (currency =="XRP"){
 
 		  var test = await xummUSD(tx.ledger_index,true);
 		  usdValue = test;
