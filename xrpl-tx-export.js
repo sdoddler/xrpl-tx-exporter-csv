@@ -123,7 +123,7 @@ const app = async (account, cb, returnTx, xrplServer) => {
 		}
 
 		  
-			  if (usdValue < 0.001) usdValue = 0;
+			  if (Math.abs(usdValue) < 0.001) usdValue = 0;
 
             cb({
               ledger: tx.ledger_index,
