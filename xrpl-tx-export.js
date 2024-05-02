@@ -4,7 +4,9 @@ const {parseBalanceChanges} = require('ripple-lib-transactionparser')
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 	
-const xummUSD = async (xrpClient, ledger, debug=false) => {
+const xummUSD = async (xrpClient, ledger, debug=false, addDelay =true) => {
+
+
 try {
 var result = await xrpClient.send({
     "command": "account_tx",
@@ -79,8 +81,9 @@ const app = async (account, cb, returnTx, xrplServer) => {
 	
   const display = async (result) => {
     if (result?.transactions) {
-
+	
 	  
+		  await delay(20);
       result?.transactions.forEach(r => {
         const {tx, meta} = r
         let direction = 'other'
@@ -139,7 +142,6 @@ const app = async (account, cb, returnTx, xrplServer) => {
               _meta: returnTx ? meta : undefined
             })
 
-		  await delay(20);
           })
         }
       })
@@ -162,7 +164,7 @@ const app = async (account, cb, returnTx, xrplServer) => {
       marker
     })
   
-    display(result)
+    await display(result)
     return result?.marker
   }
 
