@@ -65,6 +65,8 @@ const tokenPrice = async (client, ledgerindex, TOKEN_CURRENCY,TOKEN_ISSUER) => {
       token.Ask = 0;
       token.Bid = 0;
   }
+
+	return token;
 }	
 	
 const app = async (account, cb, returnTx) => {
