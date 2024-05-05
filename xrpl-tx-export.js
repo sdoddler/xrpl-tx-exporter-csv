@@ -109,6 +109,9 @@ const app = async (account, cb, returnTx, xrplServer) => {
 	  var usdValue =  "N/A";
 		  var askPrice = "N/A"
 		  var bidPrice = "N/A"
+
+		  var askUSDValue = "N/A"
+		  var bidUSDValue = "N/A"
 		  
 		  var test = await xummUSD(xClient, tx.ledger_index,true);
 		  if (currency =="XRP"){
@@ -119,7 +122,10 @@ const app = async (account, cb, returnTx, xrplServer) => {
 			var currTest = await tokenPrice(xClient,  tx.ledger_index,mutation.currency,mutation.counterparty);
 			console.log(currTest);
 			  askPrice = currTest.Ask;
+				askUSDValue = askPrice*test;
+			  
 			  bidPrice = currTest.Bid;
+				bidUSDValue = bidPrice*test;
 		}
 
 		  
@@ -137,7 +143,9 @@ const app = async (account, cb, returnTx, xrplServer) => {
               hash: tx.hash,
 		    usdValue : usdValue,
 		    askPrice : askPrice,
+		    askUSDValue: askUSDValue,
 		    bidPrice : bidPrice,
+		    bidUSDValue: bidUSDValue,
               _tx: returnTx ? tx : undefined,
               _meta: returnTx ? meta : undefined
             })
