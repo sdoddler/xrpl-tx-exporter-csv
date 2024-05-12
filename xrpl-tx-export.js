@@ -182,7 +182,7 @@ const app = async (account, cb, returnTx, xrplServer) => {
     proceed = await getMore(proceed)
   }
 
-  client.close()
+  xClient.close()
 }
 
 const fields = [
