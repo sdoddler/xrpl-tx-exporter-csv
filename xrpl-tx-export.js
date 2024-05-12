@@ -76,7 +76,7 @@ const tokenPrice = async (client, ledgerindex, TOKEN_CURRENCY,TOKEN_ISSUER) => {
 	return token;
 }	
 	
-const app = async (account, cb, returnTx, xrplServer) => {
+const app = async (account, cb, returnTx, xrplServer, delayAmount= 0, limit = 10) => {
 
 	
   const display = async (result) => {
@@ -168,7 +168,7 @@ const app = async (account, cb, returnTx, xrplServer) => {
     const result = await xClient.send({
       command: 'account_tx',
       account,
-      limit: 10,
+      limit: limit,
       marker
     })
   
@@ -180,6 +180,9 @@ const app = async (account, cb, returnTx, xrplServer) => {
 
   while (proceed) {
     proceed = await getMore(proceed)
+	  if (delay >0){
+	  await delay(delayAmount)
+	  }
   }
 
   xClient.close()
