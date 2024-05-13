@@ -122,10 +122,10 @@ const app = async (account, cb, returnTx, xrplServer, delayAmount= 0, limit = 10
 			var currTest = await tokenPrice(xClient,  tx.ledger_index,mutation.currency,mutation.counterparty);
 			console.log(currTest);
 			  askPrice = currTest.Ask;
-				askUSDValue = askPrice*test;
+				askUSDValue = askPrice*test*mutation.value;
 			  
 			  bidPrice = currTest.Bid;
-				bidUSDValue = bidPrice*test;
+				bidUSDValue = bidPrice*test*mutation.value;
 		}
 
 		  
