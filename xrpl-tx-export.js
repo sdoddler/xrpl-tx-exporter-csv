@@ -200,7 +200,9 @@ const fields = [
   'hash',
 	'usdValue',
 		    'askPrice',
-		    'bidPrice'
+		    'askUSDValue',
+		    'bidPrice',
+			'bidUSDValue'
 ]
 
 module.exports = {
